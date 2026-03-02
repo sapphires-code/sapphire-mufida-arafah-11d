@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head> 
+    <meta charset="UTF-8" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daftar Testimoni - Runaway Room Bookstore</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body> 
+<header> 
+    <nav> 
+        <a href="index.html">home</a>
+        <a href="product.html">product</a>
+        <a href="about-the-books.html">aboutthebooks</a>
+        <a href="testimoni.html">Testimoni</a>
+        <a href="tampil-testimoni.html">tampil testimoni</a>
+    </nav>
+</header>
+
+<main class="formulir">
+    <h2>Testimoni Pembeli</h2>
+    
+    <div id="daftartestimoni"></div>
+
+    <button id="hapussemua">Hapus Semua Testimoni</button>
+</main>
+
+<footer>
+    <p>&copy; 2026 Runaway Room Bookstore</p>
+</footer>
+
+<script>
+    
+    function muatTestimoni() {
+        const container = document.getElementById('daftartestimoni');
+        const testimoniList = JSON.parse(localStorage.getItem('testimoniList')) || [];
+
+        if (testimoniList.length === 0) {
+            container.innerHTML = "<p>Belum ada testimoni. Jadilah yang pertama memberikan ulasan!</p>";
+            return;
+        }
+
+        container.innerHTML = "";
+        testimoniList.forEach((t) => {
+    const el = document.createElement('div');
+    el.className = 'testimoni-box';
+    
+    el.innerHTML = `
+        <p><strong>Nama:</strong> ${t.nama}</p>
+        <p><strong>Instansi:</strong> ${t.instansi}</p>
+        <p><strong>Judul:</strong> ${t.judul}</p>
+        <p><strong>Rating:</strong> ${t.rating} / 5 ⭐</p>
+        <p><strong>Ulasan:</strong> ${t.pesan}</p>
+        <p><strong>Email:</strong> ${t.email}</p>
+    `;
+    container.appendChild(el);
+});
+    }
+
+    document.getElementById('hapussemua').onclick = function() {
+        if (confirm("Apakah Anda yakin ingin menghapus semua testimoni?")) {
+            localStorage.removeItem('testimoniList');
+            muatTestimoni(); 
+        }
+    };
+    window.onload = muatTestimoni;
+</script>
+
+</body>
+</html>
